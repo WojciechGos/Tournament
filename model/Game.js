@@ -5,6 +5,11 @@ const GameSchema = mongoose.Schema({
         type:Number,
         requierd:[true, "Numer gry jest wymagany"]
     },
+    position: {
+        type: Number,
+        immutable: true,
+        required: [true, 'Gra musi mieć określoną pozycje w drzewie']
+    },
     player_1_id:{
         type: mongoose.Types.ObjectId,
         ref:'Player'

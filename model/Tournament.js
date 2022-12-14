@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 const Player = require('./Player')
-const {NotFoundError} = require('../errors')
+const {NotFoundError, BadRequestError} = require('../errors')
 
 const TournamentSchema = new mongoose.Schema({
     name: {
@@ -16,6 +16,14 @@ const TournamentSchema = new mongoose.Schema({
             validator: Number.isInteger,
             message: `{VALUE} nie jest liczbą naturalną`
         }
+    },
+    is_started : {
+        type : Boolean,
+        default : false
+    },
+    is_finish: {
+        type: Boolean,
+        default: false
     },
     start_date : {
         type: Date,
@@ -36,6 +44,9 @@ TournamentSchema.pre('save', async function(){
     const player = await Player.findById(this.creator_id)
     if(!player)
         throw new NotFoundError(`Nie istnieje gracz o id: ${this.creator_id}`)
+
+    if(this.start_date > this.end_date)
+        throw new BadRequestError('Turniej nie może się skończyć wcześniej niż się zaczął');
 })
 
 module.exports = mongoose.model('Tournament', TournamentSchema)
