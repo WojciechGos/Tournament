@@ -1,7 +1,7 @@
 const Tournament = require('../model/Tournament')
 const {StatusCodes} = require('http-status-codes')
 const {BadRequestError, NotFoundError} = require('../errors')
-const { find } = require('../model/Tournament')
+
 
 const createTournament = async (req, res)=>{
     
