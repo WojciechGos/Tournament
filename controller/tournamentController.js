@@ -14,10 +14,10 @@ const createTournament = async (req, res)=>{
 }
 
 const getTournament = async ( req, res)=>{
-    const name = req.params.name
-    const tournament = await Tournament.findOne({name:name})
+    const id = req.params.id
+    const tournament = await Tournament.findById(id)
     if(!tournament)
-        throw new NotFoundError(`Nie można odnaleźć turnieju o nazwie: ${name}`)
+        throw new NotFoundError(`Nie można odnaleźć turnieju o id: ${id}`)
     res.status(StatusCodes.OK).json(tournament)
 }
 const getTournaments = async (req, res)=>{
@@ -26,8 +26,19 @@ const getTournaments = async (req, res)=>{
 }
 
 
+// TODO update does not work
+const updateTournament = async (req, res)=>{
+    const id = req.params.id 
+    
+    const tournament = await Tournament.findByIdAndUpdate(id, {...req.body})
+    if(!tournament)
+        throw new BadRequestError(`Nie można zaktualizować turnieju o id: ${id}`)
+    res.status(StatusCodes.OK).json(tournament)
+}
+
 module.exports = {
     createTournament,
     getTournament,
-    getTournaments
+    getTournaments,
+    updateTournament
 }
