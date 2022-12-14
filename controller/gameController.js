@@ -58,9 +58,6 @@ const randInt = (max)=>{
 
 const generateGames = async (tournament_id) =>{
 
-    
-
-
     const tournament = await Tournament.findById(tournament_id)
     const players = await Player.find({tournament_id:tournament_id})
     // if(!tournament)
@@ -82,10 +79,7 @@ const generateGames = async (tournament_id) =>{
         if(!game)
             throw new BadRequestError("Nie można wylosować przeciwników")
     }
-
 }
-
-
 
 module.exports = {
     createGame,
